@@ -25,11 +25,11 @@ OneDSample <- function(f, N, lb, ub, maxf) {
   unis <- runif(N, 0, maxf)
   ifelse(unis < f(ones), ones[unis < f(ones)], NA)
 }
-OneDSample2 <- function(f, N, lb, ub) {
-sampled <- data.frame(testdata = runif(N, lb, ub))
+OneDSample2 <- function(f, lb, ub) {
+sampled <- data.frame(testdata = runif(10000, lb, ub))
 sampled$f <- f(sampled$testdata)
 maxf <- max(sampled$f, na.rm = T)
-sampled$check <- ifelse(runif(N, lb, ub) < sampled$f / maxf, TRUE, FALSE)
+sampled$check <- ifelse(runif(10000, lb, ub) < sampled$f / maxf, TRUE, FALSE)
 hist(sampled$testdata[sampled$check], freq = F)
 }
 
