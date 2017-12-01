@@ -5,10 +5,8 @@
 #' We expect to get N/maxf samples
 #'
 #' @param f the pdf that we are sampling from
-#' @param N the number of attempted samples
 #' @param lb lower bound of support of f
 #' @param ub upper bound of support of f
-#' @param maxf bound of f
 #'
 #' @return vector containing samples from the pdf
 #' @export
@@ -18,18 +16,12 @@
 #' BetaPDF <- function(x) {
 #' ifelse(0 < x & x < 1, 2*x, 0)
 #' }
-#' hist(OneDSample(f = BetaPDF, N=100, lb = 0, ub = 1, maxf = 2))
+#' hist(OneDSample(f = BetaPDF, lb = 0, ub = 1))
 
-OneDSample <- function(f, N, lb, ub, maxf) {
-  ones <- runif(N, lb, ub)
-  unis <- runif(N, 0, maxf)
-  ifelse(unis < f(ones), ones[unis < f(ones)], NA)
-}
-OneDSample2 <- function(f, lb, ub) {
+OneDSample <- function(f, lb, ub) {
 sampled <- data.frame(testdata = runif(10000, lb, ub))
 sampled$f <- f(sampled$testdata)
 maxf <- max(sampled$f, na.rm = T)
 sampled$check <- ifelse(runif(10000, lb, ub) < sampled$f / maxf, TRUE, FALSE)
 hist(sampled$testdata[sampled$check], freq = F)
 }
-
